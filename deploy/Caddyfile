@@ -1,0 +1,27 @@
+# Replace the hostname with the DuckDNS name pointed at this box. Caddy obtains and renews a
+# Let's Encrypt certificate for it automatically - there is no certbot step.
+#
+# A name is not optional here. Certificate authorities issue to hostnames, not bare IPs, and
+# Android 9+ refuses cleartext by default, so an https:// URL is what the release APK needs.
+
+rice-mill.duckdns.org {
+	reverse_proxy localhost:8000 {
+		# Overwrite rather than append. Caddy's default appends the real address to whatever
+		# the client sent, and _client_ip in main.py reads the last entry for exactly that
+		# reason - but overwriting means a spoofed header cannot reach the app at all.
+		header_up X-Forwarded-For {remote_host}
+	}
+
+	request_body {
+		# Backstop above the app's own 10 MB cap, so an oversized upload dies at the edge
+		# rather than occupying the single inference worker while it uploads.
+		max_size 12MB
+	}
+
+	encode gzip
+
+	log {
+		output file /var/log/caddy/rice-api.log
+		format console
+	}
+}

@@ -1,0 +1,43 @@
+[Unit]
+Description=Rice Detector API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=exec
+User=rice
+Group=rice
+WorkingDirectory=/opt/rice/repo/backend
+EnvironmentFile=/opt/rice/rice-api.env
+
+# ProtectHome below makes $HOME unreadable, and both of these write into it at import time.
+# Without the redirect ultralytics raises on startup and matplotlib warns on every request.
+Environment=YOLO_CONFIG_DIR=/opt/rice/state/ultralytics
+Environment=MPLCONFIGDIR=/opt/rice/state/matplotlib
+
+# 127.0.0.1, never 0.0.0.0. Only Caddy reaches this; binding the wildcard would publish an
+# unauthenticated inference endpoint straight to the internet regardless of what ufw allows.
+ExecStart=/opt/rice/repo/backend/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000
+
+# One worker on purpose. Inference is CPU-bound and this box has 2 vCPU, so a second worker
+# would double the resident model memory to compete for the same cores. Queue depth is the
+# rate limiter's job. It also makes the in-memory rate limiter correct: per-IP counters in one
+# process are shared state; across workers each would keep its own and the effective limit
+# would silently multiply.
+Restart=always
+RestartSec=5
+
+# Model loading takes seconds and holds memory for the process lifetime. Never scale to zero.
+TimeoutStartSec=120
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/rice
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+
+[Install]
+WantedBy=multi-user.target

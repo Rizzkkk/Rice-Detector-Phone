@@ -1,0 +1,15 @@
+# core.autocrlf is true on this machine, so anything checked out here gets CRLF. Most of that
+# is harmless. These are not: systemd refuses to parse a unit file with carriage returns, and a
+# shell script with them fails as "bad interpreter: /bin/bash^M" - an error that names the
+# interpreter rather than the line endings and sends you looking in the wrong place.
+# Forcing LF means the VPS gets what it expects regardless of what Windows did locally.
+deploy/rice-api.service text eol=lf
+deploy/Caddyfile        text eol=lf
+*.sh                    text eol=lf
+
+# Binary, never touched
+*.pt      binary
+*.jks     binary
+*.keystore binary
+*.png     binary
+*.jpg     binary

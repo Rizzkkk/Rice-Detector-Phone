@@ -1,0 +1,12 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- The INTERNET permission is required for development. Specifically,
+         the Flutter tool needs it to communicate with the running application
+         to allow setting breakpoints, to provide hot reload, etc.
+    -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- debug only: permits http:// to the emulator host. see res/xml/network_security_config.
+         no tools:replace here - the main manifest does not set this attribute, so there is
+         nothing to replace and the merger treats it as an error. -->
+    <application android:networkSecurityConfig="@xml/network_security_config" />
+</manifest>

@@ -1,0 +1,70 @@
+{
+  "trained_on": "Linux-6.6.122+-x86_64-with-glibc2.39",
+  "gpu": "Tesla T4",
+  "seed": 42,
+  "split": "70/15/15 stratified, deduplicated before splitting",
+  "grain": {
+    "classes": [
+      "broken",
+      "chalky",
+      "stained",
+      "whole"
+    ],
+    "test_accuracy": 0.8427,
+    "class_names_from_model": {
+      "0": "broken",
+      "1": "chalky",
+      "2": "stained",
+      "3": "whole"
+    }
+  },
+  "leaf": {
+    "classes": [
+      "bacterial_leaf_blight",
+      "brown_spot",
+      "healthy",
+      "rice_blast",
+      "tungro"
+    ],
+    "test_accuracy": 0.9675,
+    "class_names_from_model": {
+      "0": "bacterial_leaf_blight",
+      "1": "brown_spot",
+      "2": "healthy",
+      "3": "rice_blast",
+      "4": "tungro"
+    }
+  },
+  "licences": {
+    "peru_mill": "TBD - check the Kaggle page",
+    "philippines": "TBD - check the Kaggle page",
+    "sethy": "TBD - original is Mendeley fwcj7stb8r, CC BY 4.0, attribution required",
+    "dedeikhsan": "TBD - check the Kaggle page"
+  },
+  "versions": {
+    "ultralytics": "8.4.150",
+    "torch": "2.11.0+cu128",
+    "torchvision": "0.26.0+cu128",
+    "numpy": "2.1.3",
+    "pillow": "11.3.0",
+    "scikit-learn": "1.6.1"
+  },
+  "leaf_cross_dataset": {
+    "dedeikhsan": 0.439,
+    "philippines": 0.6015,
+    "sethy": 0.9149
+  },
+  "router": {
+    "classes": [
+      "grain",
+      "leaf"
+    ],
+    "test_accuracy": 1.0,
+    "per_source": {
+      "peru_mill": 1.0,
+      "sethy": 1.0,
+      "philippines": 1.0,
+      "dedeikhsan": 1.0
+    }
+  }
+}
