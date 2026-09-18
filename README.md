@@ -87,7 +87,17 @@ No recognised disease means none of the four it knows about, not that the plant 
 The healthy class scored zero recall on every photo set the model had not trained on, so the
 app is not allowed to report a plant as healthy at all.
 
-The grain model was trained on Peruvian rice photographed at a mill in Lambayeque. Philippine
-grain will look somewhat different and nobody has measured how much that matters yet.
+The grain model was trained on Peruvian rice photographed at a mill in Lambayeque, and it has
+only that one source, so there is no held out source to measure it against.
+
+The variety is probably not the main problem. Those training photos are single grains on a
+plain black background, evenly lit. A phone at a working mill sees grains on a tray under
+whatever light is in the room. The four classes are defects and not varietal traits, a break is
+a break and chalk is chalk, so some of it should carry over. But that is reasoning and not a
+measurement, and nobody has taken the measurement yet.
+
+The next step is photographing the mill's own rice on the actual phone and retraining on it.
+The classes and the filename do not change, so that is a new weights file and a restart, not a
+code change.
 
 Neither model has been checked by an agronomist.
