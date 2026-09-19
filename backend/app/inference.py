@@ -1,6 +1,7 @@
 """loading the models and running them. three yolo11 classifiers, no detector. one grades a
 grain, one names a leaf disease, one says which of those two answers fits the photo. the exact
 wording in format_report is part of the api contract so it only lives here."""
+import sys
 from typing import Dict, Optional, Tuple
 
 from . import config
@@ -42,8 +43,11 @@ def load_models() -> None:
         _router_model = YOLO(str(config.ROUTER_MODEL_PATH))
         _load_error = None
     except Exception as exc:
-        # saved instead of raised so the app still starts and /health can say what went wrong
+        # saved instead of raised so the app still starts and /health can say what went wrong.
+        # also printed, because /health only returns a bool and the reason is the whole point
+        # when you are on a server wondering why models_loaded is false.
         _load_error = "%s: %s" % (type(exc).__name__, exc)
+        print("model load failed: %s" % _load_error, file=sys.stderr, flush=True)
         _grain_model = None
         _leaf_model = None
         _router_model = None
