@@ -1,3 +1,8 @@
+# Only use this on a box where nothing else owns ports 80 and 443. If nginx or apache is
+# already there serving other sites, use deploy/nginx-rice-api.conf instead - Let's Encrypt
+# validates on 80 or 443 and nowhere else, so a second web server has no port left to prove
+# the domain with, whatever port you move it to.
+#
 # Replace the hostname with the DuckDNS name pointed at this box. Caddy obtains and renews a
 # Let's Encrypt certificate for it automatically - there is no certbot step.
 #
