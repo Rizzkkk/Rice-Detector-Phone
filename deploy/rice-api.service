@@ -7,6 +7,8 @@ Wants=network-online.target
 Type=exec
 User=rice
 Group=rice
+# the code is here, the venv is not. keeping them apart means deleting and re-cloning the repo
+# does not throw away the python environment and make you download torch again.
 WorkingDirectory=/opt/rice/repo/backend
 EnvironmentFile=/opt/rice/rice-api.env
 
@@ -17,7 +19,7 @@ Environment=MPLCONFIGDIR=/opt/rice/state/matplotlib
 
 # 127.0.0.1, never 0.0.0.0. Only Caddy reaches this; binding the wildcard would publish an
 # unauthenticated inference endpoint straight to the internet regardless of what ufw allows.
-ExecStart=/opt/rice/repo/backend/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000
+ExecStart=/opt/rice/venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000
 
 # One worker on purpose. Inference is CPU-bound and this box has 2 vCPU, so a second worker
 # would double the resident model memory to compete for the same cores. Queue depth is the
